@@ -5,14 +5,163 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ERP</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/data.css' %}">
 </head>
 <body>
-
-    <h1>Admin Base</h1>
-
     {% block content %}
     {% endblock %}
-
-</body>
-</html>
+    <nav class="navbar">
+       
+        <div class="logo_item">
+          <i class="bx bx-menu" id="sidebarOpen"></i>
+          <span class="navlink"><h1>ERP</h1></span>
+        </div>       
+        <div class="navbar_content">
+          <i class="bi bi-grid"></i>
+          <i class='bx bx-sun' id="darkLight"></i>
+        </div>
+      </nav>
+      <nav class="sidebar">
+        <div class="menu_content">
+          <ul class="menu_items">
+            <div class="menu_title menu_dahsboard"></div>
+            <li class="item">
+              <a href="{% url 'admin_dashboard' %}" class="nav_link submenu_item">
+                <span class="navlink_icon">
+                  <i class="bx bx-home-alt"></i>
+                </span>
+                <span class="navlink">Home</span>
+              </a>
+            </li>
+            <li class="item">
+              <a href="{% url 'student_details' %}" class="nav_link submenu_item">
+                  <span class="navlink_icon">
+                      <i class="bx bx-grid-alt"></i>
+                  </span>
+                  <span class="navlink">Student Detail</span>
+              </a>
+          </li>
+          
+            <li class="item">
+              <a href="#" class="nav_link submenu_item">
+                <span class="navlink_icon">
+                  <i class="bx bx-grid-alt"></i>
+                </span>
+                <span class="navlink">Teacher Detail</span>
+                </a>
+            </li>
+            <li class="item">
+              <a href="#" class="nav_link submenu_item">
+                <span class="navlink_icon">
+                  <i class="bx bx-grid-alt"></i>
+                </span>
+                <span class="navlink">Attendance</span>
+              </a>
+            </li>
+            <li class="item">
+              <a href="#" class="nav_link submenu_item">
+                <span class="navlink_icon">
+                  <i class="bx bx-grid-alt"></i>
+                </span>
+                <span class="navlink">Grades and Marks</span>
+              </a>
+            </li>
+            <li class="item">
+              <a href="#" class="nav_link submenu_item">
+                <span class="navlink_icon">
+                  <i class="bx bx-grid-alt"></i>
+                </span>
+                <span class="navlink">Class and Sections</span>
+              </a>
+            </li>
+            <li class="item">
+              <a href="#" class="nav_link submenu_item">
+                <span class="navlink_icon">
+                  <i class="bx bx-grid-alt"></i>
+                </span>
+                <span class="navlink">Subjects</span>
+              </a>
+            </li>
+            <li class="item">
+              <a href="#" class="nav_link submenu_item">
+                <span class="navlink_icon">
+                  <i class="bx bx-grid-alt"></i>
+                </span>
+                <span class="navlink">Examinations</span>
+              </a>
+            </li>
+          </ul>
+  
+          <!-- Sidebar Open / Close -->
+          <div class="bottom_content">
+            <div class="bottom expand_sidebar">
+              <span> Expand</span>
+              <i class='bx bx-log-in' ></i>
+            </div>
+            <div class="bottom collapse_sidebar">
+              <span> Collapse</span>
+              <i class='bx bx-log-out'></i>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <script>
+        const body = document.querySelector("body");
+  const darkLight = document.querySelector("#darkLight");
+  const sidebar = document.querySelector(".sidebar");
+  const submenuItems = document.querySelectorAll(".submenu_item");
+  const sidebarOpen = document.querySelector("#sidebarOpen");
+  const sidebarClose = document.querySelector(".collapse_sidebar");
+  const sidebarExpand = document.querySelector(".expand_sidebar");
+  sidebarOpen.addEventListener("click", () => sidebar.classList.toggle("close"));
+  
+  sidebarClose.addEventListener("click", () => {
+    sidebar.classList.add("close", "hoverable");
+  });
+  sidebarExpand.addEventListener("click", () => {
+    sidebar.classList.remove("close", "hoverable");
+  });
+  
+  sidebar.addEventListener("mouseenter", () => {
+    if (sidebar.classList.contains("hoverable")) {
+      sidebar.classList.remove("close");
+    }
+  });
+  sidebar.addEventListener("mouseleave", () => {
+    if (sidebar.classList.contains("hoverable")) {
+      sidebar.classList.add("close");
+    }
+  });
+  
+  darkLight.addEventListener("click", () => {
+    body.classList.toggle("dark");
+    if (body.classList.contains("dark")) {
+      document.setI
+      darkLight.classList.replace("bx-sun", "bx-moon");
+    } else {
+      darkLight.classList.replace("bx-moon", "bx-sun");
+    }
+  });
+  
+  submenuItems.forEach((item, index) => {
+    item.addEventListener("click", () => {
+      item.classList.toggle("show_submenu");
+      submenuItems.forEach((item2, index2) => {
+        if (index !== index2) {
+          item2.classList.remove("show_submenu");
+        }
+      });
+    });
+  });
+  
+  if (window.innerWidth < 768) {
+    sidebar.classList.add("close");
+  } else {
+    sidebar.classList.remove("close");
+  }
+      </script>
+    </body>
+  
+  </html>
