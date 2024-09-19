@@ -1,4 +1,8 @@
 #Should add this to gitingore before deploying
 
 #ERP/settings.py
-#db.sqlite3
+# db.sqlite3
+
+/home/
+
+__pycache__/
