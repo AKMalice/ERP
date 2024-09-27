@@ -6,7 +6,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('dashboard/admin',admin_dashboard,name='admin_dashboard'),
-
-    # Matches all url paths so keep at the end of the list
-    path('', include('home.urls'))
 ]
+
+# Include home module if present
+try:
+    urlpatterns.append(path('', include('home.urls')))
+except:
+    pass
