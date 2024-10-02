@@ -1,39 +1,41 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from .forms import StudentForm
+from .models import Student
+from django.shortcuts import render, redirect
+from .models import Student
+from .forms import StudentForm
 
-
-DUMMY_STUDENTS = [
-    {'id_number': '001', 'name': 'priya', 'class': '10', 'section': 'A', 'marks': '85'},
-    {'id_number': '002', 'name': 'riya', 'class': '10', 'section': 'B', 'marks': '90'},
-    {'id_number': '003', 'name': 'ram', 'class': '10', 'section': 'A', 'marks': '78'},
-    {'id_number': '005', 'name': 'arjun', 'class': '10', 'section': 'C', 'marks': '88'},
-     {'id_number': '006', 'name': 'sudeeksha', 'class': '10', 'section': 'A', 'marks': '85'},
-    {'id_number': '007', 'name': 'sreya', 'class': '10', 'section': 'B', 'marks': '90'},
-    {'id_number': '008', 'name': 'preethi', 'class': '10', 'section': 'A', 'marks': '78'},
-    {'id_number': '009', 'name': 'rahul', 'class': '10', 'section': 'C', 'marks': '88'},
-     {'id_number': '010', 'name': 'raj', 'class': '10', 'section': 'A', 'marks': '85'},
-    {'id_number': '011', 'name': 'arjun', 'class': '10', 'section': 'B', 'marks': '90'},
-    {'id_number': '012', 'name': 'arvind', 'class': '10', 'section': 'A', 'marks': '78'},
-]
-def student_list(request):
-    query = request.GET.get('query', '').strip()
-    view_students = request.GET.get('view_students') == 'true'
-    if query:
-        students = [student for student in DUMMY_STUDENTS if query.lower() in student['name'].lower() or query.lower() in student['id_number'].lower()]
+def add_student(request):
+    if request.method == 'POST':
+        form = StudentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('view_students')  # Redirect to the student list after saving
     else:
-        students = DUMMY_STUDENTS
+        form = StudentForm()  # Create a new instance of the form
+    
+    return render(request, 'add_student.html', {'form': form})
 
-    if view_students:
-        paginator = Paginator(students, 5)
-        page = request.GET.get('page')
-        try:
-            students = paginator.page(page)
-        except PageNotAnInteger:
-            students = paginator.page(1)
-        except EmptyPage:
-            students = paginator.page(paginator.num_pages)
-    return render(request, 'admin/students.html', {'students': students})   
-def admin_dashboard(request):
-    return render(request,'admin/dashboard.html')
+
+def view_students(request):
+    query = request.GET.get('q')
+    if query:
+        students = Student.objects.filter(first_name__icontains=query)
+    else:
+        students = Student.objects.all()
+        paginator = Paginator(students, 1)  # Show 10 students per page
+        page_number = request.GET.get('page')  # Get the current page number from the request
+        students = paginator.get_page(page_number)  # Get the students for the current page
+
+    return render(request, 'adminpannel/students.html', {'students': students})
+
+def custom_dashboard(request):
+    return render(request,'adminpannel/custom_dashboard.html')
 def student_details(request):
-    return render(request,'admin/students.html')
+    return render(request,'adminpannel/students.html')
+def add_student(request):
+    return render(request, 'adminpannel/addstudent.html')
+def student_detail(request, first_name):
+    student = get_object_or_404(Student, first_name=first_name)
+    return render(request, 'adminpannel/student_details.html', {'student': student})

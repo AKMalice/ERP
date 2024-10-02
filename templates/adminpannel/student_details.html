@@ -1,0 +1,80 @@
+{% extends 'adminpannel/base.html' %}
+
+{% block content %}
+<div class="content-wrapper">
+    <div class="main-content">
+        <h2>Student Details</h2>
+        <p><strong>Id number:</strong> {{ student.id }}</p>
+        <p><strong>First Name:</strong> {{ student.first_name }}</p>
+        <p><strong>Last Name:</strong> {{ student.last_name }}</p>
+        <p><strong>Mother phone number</strong> {{ student.mother_phone_no}}</p>
+        <p><strong>Father phone number</strong> {{ student.father_phone_no }}</p>
+        <p><strong>Parent Email:</strong> {{ student.parent_email }}</p>
+        <p><strong>Enrollment Date:</strong> {{ student.enrollment_date }}</p>
+        <a href="{% url 'view_students' %}">Back to Students List</a>
+    </div>
+</div>
+
+
+<style>
+    .content-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh; 
+        background-color: #f7f7f7;
+        margin: 0; 
+        transform: translateY(-100px);
+    }
+
+    .main-content {
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 700px;
+        width: 80%;
+        text-align: center; 
+    }
+
+    .styled-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    .styled-table th, .styled-table td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .styled-table th {
+        background-color: #f2f2f2;
+        color: #333;
+    }
+
+    .styled-table tbody tr:nth-of-type(even) {
+        background-color: #f9f9f9;
+    }
+
+    .styled-table tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .add-student-btn {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #5398bd;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: bold;
+    }
+
+    .add-student-btn:hover {
+        background-color: #4c8ab1;
+    }
+</style>
+{% endblock %}

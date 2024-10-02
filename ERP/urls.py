@@ -21,7 +21,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',views.admin_dashboard,name="admin_dashboard"),
-    path('students/',views.student_details,name="student_details"),
-    path('students/Data',views.student_list,name="student_list")
+    path('',views.custom_dashboard,name="custom_dashboard"),
+    path('add-student/', views.add_student, name='add_student'),
+    path('students/',views.view_students,name="view_students"),
+     path('students/<str:first_name>/', views.student_detail, name='student_detail'),  # Changed to first_name
+    
 ]
+urlpatterns=urlpatterns+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
